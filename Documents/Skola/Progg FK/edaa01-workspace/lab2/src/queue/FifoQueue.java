@@ -3,11 +3,13 @@ package queue;
 import java.util.*;
 
 public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
-	public QueueNode<E> last;
+	private QueueNode<E> last;
 	private int size;
 
 	public FifoQueue() {
-
+		size = 0;
+		last = null;
+		
 	}
 
 	/**
@@ -60,15 +62,18 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 */
 	public boolean offer(E x) {
 		QueueNode<E> temp;
-		if (isEmpty()) {
+		if (last==null) {
 			temp = new QueueNode<E>(x);
 			last = temp;
 			last.next = temp;
 		} else {
 			temp = new QueueNode<E>(x);
+			QueueNode<E> temp2 = last;
 			temp.next = last.next;
+			last.next = temp;
 			last = temp;
 		}
+		size++;
 		return true;
 	}
 
@@ -79,11 +84,20 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * @return the head of this queue, or null if the queue is empty
 	 */
 	public E poll() {
-		if (isEmpty()) {
+		if (last==null) {
 			return null;
 		}
-		E temp = last.element;
-		last = last.next;
+		E temp = last.next.element;
+		if(last.next==last){
+			last = null;
+		}else{
+			last.next = last.next.next;
+		}
+		
+		if(size>=0){
+			size--;	
+		}
+		
 		return temp;
 	}
 
@@ -94,17 +108,35 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * @return the head element of this queue, or null if this queue is empty
 	 */
 	public E peek() {
-		if (isEmpty()) {
+		if (last==null) {
 			return null;
 		}
-		return last.element;
+		return last.next.element;
 	}
 	
 	//Appends the queue q to the current queue. q is positioned behind the current queue.
 	
 	public void append(FifoQueue<E> q){
-		last.next = q.last.next;
-		last = q.last;
+		if(q.size() == 0) {
+			return;
+		} else if (size == 0){
+			last = q.last;
+			size = q.size();
+		} else{
+			QueueNode<E> temp = last;
+			last.next = q.last.next;
+			q.last.next = temp.next;
+			last = q.last;
+			size = size + q.size();
+		}
+		
+	}
+	
+	//Removes all queue nodes by setting.
+	
+	public void removeAll(){
+		last = null;
+		size = 0;
 	}
 
 	private static class QueueNode<E> {

@@ -10,23 +10,24 @@ public class TestFifoQueueAppend<E> {
 	private FifoQueue<Integer> a;
 	private FifoQueue<Integer> b;
 
-	@Before
-	public void setUp() throws Exception {
-		a = new FifoQueue<Integer>();
-		
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		a.last = null;
-		
-	}
+//	@Before
+//	public void setUp() throws Exception {
+//		a = new FifoQueue<Integer>();
+//		b = new FifoQueue<Integer>();
+//		
+//	}
+//
+//	@After
+//	public void tearDown() throws Exception {
+//		a.removeAll();
+//		b.removeAll();
+//	}
 
 	@Test
 	public void twoEmptyQueues() {
 		a.append(b);
 		assertTrue("Queue size not 0", a.size()==0);
-		assertTrue("Queue not empty", a.last==null);
+		assertTrue("Queue not empty", a.peek()==null);
 	}
 	
 	@Test
