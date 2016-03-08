@@ -4,9 +4,11 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class PhoneBook implements Serializable{
-	private Map<String,Set<String>> phoneBook;
+	private Map<String,ArrayList<String>> phoneBook;
+	private int size;
 	
 	public PhoneBook() {
+		phoneBook = new HashMap<String,ArrayList<String>>(); 
 	
 	}
 	
@@ -22,6 +24,16 @@ public class PhoneBook implements Serializable{
 	 * @return true if the specified name and number was inserted
 	 */
 	public boolean put(String name, String number) {
+		if(!phoneBook.containsKey(name)){
+			ArrayList numbers = new ArrayList<String>(); 
+				numbers.add(number);
+				phoneBook.put(name,numbers);
+				size++;
+				return true;
+			}else if(phoneBook.get(name).contains(number)){
+				phoneBook.get(name).add(number);
+				return true;
+			}
 		return false;
 	}
 	
@@ -35,6 +47,11 @@ public class PhoneBook implements Serializable{
 	 * @return true if the specified name was present
 	 */
 	public boolean remove(String name) {
+		if(phoneBook.containsKey(name)){
+			phoneBook.remove(name);
+			size--;
+			return true;
+		}
 		return false;
 	}
 	
@@ -48,6 +65,10 @@ public class PhoneBook implements Serializable{
 	 * @return true if the specified name and number was present
 	 */
 	public boolean removeNumber(String name, String number) {
+		if(phoneBook.containsKey(name)&& phoneBook.get(name).contains(number)){
+			phoneBook.get(name).remove(number);
+			return true;
+		}
 		return false;
 	}
 	
@@ -58,8 +79,11 @@ public class PhoneBook implements Serializable{
 	 * @param name The name whose associated phone numbers are to be returned  
 	 * @return The phone numbers associated with the specified name
 	 */
-	public Set<String> findNumber(String name) {
-		return null;
+	public ArrayList<String> findNumber(String name) {
+		if(phoneBook.containsKey(name)){
+			return phoneBook.get(name);			
+		} 
+		return new ArrayList<String>();
 	}
 	
 	/**
@@ -70,8 +94,13 @@ public class PhoneBook implements Serializable{
 	 * names is to be returned.
 	 * @return The names associated with the specified number
 	 */
-	public Set<String> findNames(String number) {
-		return null;
+	public ArrayList<String> findNames(String number) {
+		ArrayList names = new ArrayList<String>(); 
+		for(String name:phoneBook.keySet()){
+			if(phoneBook.get(name).contains(number)){
+				names.add(name);
+			}	
+		}return names;
 	}
 	
 	/**
@@ -79,8 +108,12 @@ public class PhoneBook implements Serializable{
 	 * The set's iterator will return the names in ascending order
 	 * @return The set of all names present in this phone book
 	 */
-	public Set<String> names() {
-		return null;
+	public ArrayList<String> names() {
+		ArrayList names = new ArrayList<String>(); 
+		for(String name:phoneBook.keySet()){
+			names.add(name);
+		}		
+		return names;
 	}
 	
 	/**
@@ -88,7 +121,7 @@ public class PhoneBook implements Serializable{
 	 * @return true if this phone book is empty
 	 */	
 	public boolean isEmpty() {
-		return false;
+		return phoneBook.isEmpty();
 	}
 	
 	/**
@@ -96,7 +129,7 @@ public class PhoneBook implements Serializable{
 	 * @return The number of names in this phone book
 	 */
 	public int size() {
-		return 0;
+		return size;
 	}
 	
 	/**
@@ -106,7 +139,15 @@ public class PhoneBook implements Serializable{
 	@Override
 	public
 	String toString(){
-		return "";
+		StringBuilder sb = new StringBuilder(); 
+		for(String name:phoneBook.keySet()){
+			sb.append(name + "\t");
+			for(String number:phoneBook.get(name)){
+				sb.append(number + " ");			
+			}
+			sb.append("\n");
+			}
+		return sb.toString();
 	}
 
 }

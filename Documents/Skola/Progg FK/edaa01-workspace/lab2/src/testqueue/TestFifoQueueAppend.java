@@ -1,3 +1,5 @@
+package testqueue;
+
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -10,18 +12,18 @@ public class TestFifoQueueAppend<E> {
 	private FifoQueue<Integer> a;
 	private FifoQueue<Integer> b;
 
-//	@Before
-//	public void setUp() throws Exception {
-//		a = new FifoQueue<Integer>();
-//		b = new FifoQueue<Integer>();
-//		
-//	}
-//
-//	@After
-//	public void tearDown() throws Exception {
-//		a.removeAll();
-//		b.removeAll();
-//	}
+	@Before
+	public void setUp() throws Exception {
+		a = new FifoQueue<Integer>();
+		b = new FifoQueue<Integer>();
+		
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		a.removeAll();
+		b.removeAll();
+	}
 
 	@Test
 	public void twoEmptyQueues() {

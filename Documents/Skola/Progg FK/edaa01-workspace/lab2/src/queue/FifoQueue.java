@@ -9,7 +9,7 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	public FifoQueue() {
 		size = 0;
 		last = null;
-		
+
 	}
 
 	/**
@@ -36,8 +36,11 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 
 		@Override
 		public E next() {
+			
+			E element = pos.next.element;
+			pos = pos.next;
 
-			return pos.next.element;
+			return element;
 		}
 
 	}
@@ -62,13 +65,12 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 */
 	public boolean offer(E x) {
 		QueueNode<E> temp;
-		if (last==null) {
+		if (last == null) {
 			temp = new QueueNode<E>(x);
 			last = temp;
 			last.next = temp;
 		} else {
 			temp = new QueueNode<E>(x);
-			QueueNode<E> temp2 = last;
 			temp.next = last.next;
 			last.next = temp;
 			last = temp;
@@ -84,20 +86,20 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * @return the head of this queue, or null if the queue is empty
 	 */
 	public E poll() {
-		if (last==null) {
+		if (last == null) {
 			return null;
 		}
 		E temp = last.next.element;
-		if(last.next==last){
+		if (last.next == last) {
 			last = null;
-		}else{
+		} else {
 			last.next = last.next.next;
 		}
-		
-		if(size>=0){
-			size--;	
+
+		if (size >= 0) {
+			size--;
 		}
-		
+
 		return temp;
 	}
 
@@ -108,33 +110,34 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * @return the head element of this queue, or null if this queue is empty
 	 */
 	public E peek() {
-		if (last==null) {
+		if (last == null) {
 			return null;
 		}
 		return last.next.element;
 	}
-	
-	//Appends the queue q to the current queue. q is positioned behind the current queue.
-	
-	public void append(FifoQueue<E> q){
-		if(q.size() == 0) {
+
+	// Appends the queue q to the current queue. q is positioned behind the
+	// current queue.
+
+	public void append(FifoQueue<E> q) {
+		if (q.size() == 0) {
 			return;
-		} else if (size == 0){
+		} else if (size == 0) {
 			last = q.last;
 			size = q.size();
-		} else{
+		} else {
 			QueueNode<E> temp = last;
 			last.next = q.last.next;
 			q.last.next = temp.next;
 			last = q.last;
 			size = size + q.size();
 		}
-		
+
 	}
-	
-	//Removes all queue nodes by setting.
-	
-	public void removeAll(){
+
+	// Removes all queue nodes by setting.
+
+	public void removeAll() {
 		last = null;
 		size = 0;
 	}

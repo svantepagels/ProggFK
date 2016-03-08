@@ -36,7 +36,7 @@ public class FractalApplication extends Application {
 	private Group canvasWrapper;
 
 	final double fractalWidth = 600;
-	final double fractalHeight = 600;
+	final double fractalHeight = 500;
 
 	public static void main(String[] args) {
 		Application.launch(args);
@@ -44,8 +44,9 @@ public class FractalApplication extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		fractals = new Fractal[1];
-		fractals[0] = new Koch(300);	
+		fractals = new Fractal[2];
+		fractals[0] = new Koch(300);
+		fractals[1] = new Mountain(); 
 		actFractal = fractals[0];
 		BorderPane root = new BorderPane();
 		root.setBottom(addButtonBox());
@@ -155,7 +156,7 @@ public class FractalApplication extends Application {
 					}
 				});
 				} catch (ThreadDeath e) { // do nothing
-//					System.out.println("beräkningen avbruten");
+//					System.out.println("berï¿½kningen avbruten");
 				} catch(Throwable e){
 //					System.err.println(e.getMessage());
 					e.printStackTrace(System.err);
