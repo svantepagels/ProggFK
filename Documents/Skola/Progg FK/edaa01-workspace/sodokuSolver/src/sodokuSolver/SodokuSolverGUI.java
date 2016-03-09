@@ -43,6 +43,8 @@ public class SodokuSolverGUI {
 		tilePane.setHgap(3);
 		tilePane.setVgap(3);
 		tilePane.setStyle("-fx-background-color: #336699;");
+		tilePane.setMaxSize(292,265);
+		tilePane.setMinSize(292,265);
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
